@@ -413,8 +413,13 @@ std::vector<std::string> file_dialog(const std::vector<std::pair<std::string, st
         cmd += "--save ";
     cmd += "--file-filter=\"";
     for (auto pair : filetypes)
-        cmd += "\"*." + pair.first + "\" ";
+        cmd += "*." + pair.first + " ";
+    // eat last space
+    if (!filetypes.empty()) {
+        cmd.pop_back();
+    }
     cmd += "\"";
+    std::cout << cmd << std::endl;
     FILE *output = popen(cmd.c_str(), "r");
     if (output == nullptr)
         throw std::runtime_error("popen() failed -- could not launch zenity!");
